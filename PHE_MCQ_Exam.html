@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHE MCQ Exam – March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;
+  --surface:#161b22;
+  --surface2:#1c2128;
+  --border:#30363d;
+  --accent:#00c896;
+  --accent2:#0ea5e9;
+  --danger:#f87171;
+  --warn:#fbbf24;
+  --text:#e6edf3;
+  --muted:#7d8590;
+  --radius:12px;
+}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── COVER ── */
+#cover{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;position:relative;overflow:hidden;
+}
+#cover::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,200,150,0.12),transparent),
+             radial-gradient(ellipse 60% 40% at 80% 100%,rgba(14,165,233,0.10),transparent);
+  pointer-events:none;
+}
+.cover-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 16px;
+  background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);
+  border-radius:999px;font-size:12px;color:var(--accent);font-weight:500;
+  letter-spacing:0.05em;margin-bottom:2rem;
+}
+.cover-badge span{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
+h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1.1;margin-bottom:1rem}
+h1 span{color:var(--accent)}
+.cover-sub{font-size:1.05rem;color:var(--muted);margin-bottom:0.5rem}
+.cover-meta{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:2rem 0;
+}
+.meta-pill{
+  padding:8px 18px;background:var(--surface);border:1px solid var(--border);
+  border-radius:999px;font-size:13px;color:var(--muted);
+}
+.meta-pill strong{color:var(--text)}
+.name-row{display:flex;gap:12px;align-items:center;margin-bottom:2rem;flex-wrap:wrap;justify-content:center}
+#nameInput{
+  padding:12px 20px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);font-family:'Sora',sans-serif;font-size:15px;
+  color:var(--text);outline:none;width:280px;transition:border-color .2s;
+}
+#nameInput:focus{border-color:var(--accent)}
+#nameInput::placeholder{color:var(--muted)}
+.btn{
+  padding:13px 32px;background:var(--accent);color:#0d1117;border:none;
+  border-radius:var(--radius);font-family:'Sora',sans-serif;font-size:15px;
+  font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:0.02em;
+}
+.btn:hover{background:#00e6ad;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed;transform:none}
+
+/* ── EXAM ── */
+#exam{display:none;max-width:860px;margin:0 auto;padding:1.5rem}
+.exam-header{
+  position:sticky;top:0;z-index:100;background:var(--bg);
+  border-bottom:1px solid var(--border);padding:1rem 0;margin-bottom:2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.exam-title{font-size:14px;font-weight:600;color:var(--muted)}
+.exam-title strong{color:var(--text)}
+.timer{
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:500;
+  color:var(--accent);background:rgba(0,200,150,0.08);
+  padding:8px 18px;border-radius:999px;border:1px solid rgba(0,200,150,0.2);
+}
+.timer.warn{color:var(--warn);background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.2)}
+.timer.danger{color:var(--danger);background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.2);animation:timerShake .5s infinite}
+@keyframes timerShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.progress-bar{width:100%;height:3px;background:var(--surface2);border-radius:999px;margin-top:8px}
+.progress-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .3s ease}
+.q-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:2rem;margin-bottom:1.5rem;transition:border-color .2s;
+  animation:fadeUp .3s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.q-card:hover{border-color:#444c56}
+.q-num{
+  font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:12px;font-family:'JetBrains Mono',monospace;
+}
+.q-text{font-size:16px;font-weight:500;line-height:1.6;margin-bottom:1.5rem;color:var(--text)}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{
+  display:flex;align-items:flex-start;gap:14px;padding:14px 18px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+  cursor:pointer;transition:all .15s;
+}
+.opt:hover{border-color:var(--accent2);background:rgba(14,165,233,0.05)}
+.opt.selected{border-color:var(--accent2);background:rgba(14,165,233,0.08)}
+.opt-label{
+  min-width:28px;height:28px;border-radius:8px;
+  background:var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0;font-family:'JetBrains Mono',monospace;
+  transition:all .15s;
+}
+.opt.selected .opt-label{background:var(--accent2);color:#fff}
+.opt-text{font-size:14px;line-height:1.5;padding-top:4px;color:var(--text)}
+.nav-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 0;flex-wrap:wrap;gap:12px;
+}
+.answered-count{font-size:13px;color:var(--muted)}
+.answered-count strong{color:var(--text)}
+.btn-submit{
+  padding:13px 36px;background:var(--accent);color:#0d1117;border:none;
+  border-radius:var(--radius);font-family:'Sora',sans-serif;font-size:15px;
+  font-weight:700;cursor:pointer;transition:all .2s;
+}
+.btn-submit:hover{background:#00e6ad;transform:translateY(-1px)}
+
+/* ── RESULTS ── */
+#results{display:none;max-width:720px;margin:0 auto;padding:2rem}
+.score-hero{
+  text-align:center;padding:3rem 2rem;background:var(--surface);
+  border:1px solid var(--border);border-radius:20px;margin-bottom:2rem;
+  position:relative;overflow:hidden;
+}
+.score-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,200,150,0.08),transparent);
+}
+.score-ring{
+  width:140px;height:140px;border-radius:50%;
+  border:6px solid var(--border);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;margin:0 auto 1.5rem;
+  position:relative;
+}
+.score-ring-fill{
+  position:absolute;inset:-6px;border-radius:50%;
+  background:conic-gradient(var(--accent) var(--pct),var(--surface2) 0);
+  mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 6px));
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 6px));
+}
+.score-num{font-size:2.5rem;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1}
+.score-total{font-size:13px;color:var(--muted);margin-top:4px}
+.score-grade{font-size:1.5rem;font-weight:700;margin-bottom:0.5rem}
+.score-name{font-size:15px;color:var(--muted)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem;text-align:center;
+}
+.stat-val{font-size:1.8rem;font-weight:700;font-family:'JetBrains Mono',monospace}
+.stat-val.correct{color:var(--accent)}
+.stat-val.wrong{color:var(--danger)}
+.stat-val.skip{color:var(--warn)}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:4px}
+.review-title{font-size:16px;font-weight:600;margin-bottom:1rem;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;font-size:12px}
+.r-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem 1.5rem;margin-bottom:10px;
+}
+.r-q{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.5}
+.r-opts{display:flex;flex-direction:column;gap:6px}
+.r-opt{
+  padding:8px 12px;border-radius:8px;font-size:13px;border:1px solid transparent;
+}
+.r-opt.correct-ans{background:rgba(0,200,150,0.08);border-color:rgba(0,200,150,0.3);color:var(--accent)}
+.r-opt.wrong-ans{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.3);color:var(--danger)}
+.r-opt.neutral{color:var(--muted)}
+.retry-btn{
+  display:block;width:100%;padding:14px;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius);
+  font-family:'Sora',sans-serif;font-size:14px;font-weight:600;
+  color:var(--text);cursor:pointer;margin-top:1rem;transition:all .2s;
+  text-align:center;
+}
+.retry-btn:hover{border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div id="cover">
+  <div class="cover-badge"><span></span> Public Health Engineering</div>
+  <h1>PHE <span>MCQ</span> Exam</h1>
+  <p class="cover-sub">March 2026 &nbsp;|&nbsp; Professional Assessment</p>
+  <div class="cover-meta">
+    <div class="meta-pill"><strong>150</strong> Questions</div>
+    <div class="meta-pill"><strong>150</strong> Marks</div>
+    <div class="meta-pill"><strong>90</strong> Minutes</div>
+    <div class="meta-pill"><strong>1</strong> Mark Each</div>
+  </div>
+  <div class="name-row">
+    <input id="nameInput" type="text" placeholder="Enter your full name" maxlength="60"/>
+    <button class="btn" id="startBtn" onclick="startExam()" disabled>Start Exam</button>
+  </div>
+  <p style="font-size:12px;color:var(--muted)">Enter your name to begin &nbsp;·&nbsp; Do not refresh during the exam</p>
+</div>
+
+<!-- EXAM -->
+<div id="exam">
+  <div class="exam-header">
+    <div>
+      <div class="exam-title"><strong id="headerName">Candidate</strong> &nbsp;·&nbsp; PHE MCQ Exam</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="timer" id="timer">90:00</div>
+  </div>
+  <div id="questionsContainer"></div>
+  <div class="nav-bar">
+    <div class="answered-count">Answered: <strong id="answeredCount">0</strong> / 150</div>
+    <button class="btn-submit" onclick="confirmSubmit()">Submit Exam</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results"></div>
+
+<script>
+const QUESTIONS = [{"no": 1, "q": "The primary purpose of a service reservoir in a water supply system is to:", "opts": ["To treat water chemically", "To balance supply and demand and maintain pressure", "To pump water to distribution mains", "To store chemicals for treatment"], "ans": 1}, {"no": 2, "q": "Which disinfection method is most commonly used for municipal water supply?", "opts": ["Ozonation", "UV irradiation", "Chlorination", "Boiling"], "ans": 2}, {"no": 3, "q": "The standard residual chlorine maintained at the consumer's tap as per IS:10500 is:", "opts": ["0.1 mg/L", "0.2 mg/L", "0.5 mg/L", "1.0 mg/L"], "ans": 1}, {"no": 4, "q": "The pH of potable water as per IS:10500 should be in the range of:", "opts": ["5.5-7.0", "6.5-8.5", "7.0-9.0", "8.0-10.0"], "ans": 1}, {"no": 5, "q": "Recommended per capita domestic water supply for urban area in India (LPCD):", "opts": ["70 LPCD", "100 LPCD", "135 LPCD", "200 LPCD"], "ans": 2}, {"no": 6, "q": "Pipe material most commonly used for water supply distribution networks:", "opts": ["Cast iron", "HDPE / uPVC", "Galvanised iron", "Stainless steel"], "ans": 1}, {"no": 7, "q": "The Hazen-Williams formula is used to calculate:", "opts": ["Velocity of flow in open channels", "Head loss due to friction in pressurised pipes", "Pump discharge", "Sewer gradient"], "ans": 1}, {"no": 8, "q": "A ball valve is best classified as:", "opts": ["Globe valve", "Quarter-turn isolation valve", "Pressure reducing valve", "Check valve"], "ans": 1}, {"no": 9, "q": "Which type of pump is most widely used for water supply boosting?", "opts": ["Reciprocating pump", "Centrifugal pump", "Gear pump", "Diaphragm pump"], "ans": 1}, {"no": 10, "q": "MLD in water supply stands for:", "opts": ["Milli Litre Distribution", "Million Litres per Day", "Mean Load Demand", "Minimum Level Design"], "ans": 1}, {"no": 11, "q": "Hard water is mainly caused by dissolved salts of:", "opts": ["Sodium and potassium", "Calcium and magnesium", "Iron and manganese", "Chlorides and sulphates"], "ans": 1}, {"no": 12, "q": "Turbidity of water is measured in:", "opts": ["mg/L", "ppm", "NTU", "BOD units"], "ans": 2}, {"no": 13, "q": "Removing suspended solids from water using a filter is called:", "opts": ["Coagulation", "Sedimentation", "Filtration", "Disinfection"], "ans": 2}, {"no": 14, "q": "Overhead water storage tank is typically sized for how many hours of supply?", "opts": ["1-2 hours", "4-8 hours", "12-16 hours", "24 hours"], "ans": 1}, {"no": 15, "q": "Which valve prevents reverse flow in a pipe?", "opts": ["Gate valve", "Globe valve", "Check (non-return) valve", "Butterfly valve"], "ans": 2}, {"no": 16, "q": "Minimum self-cleansing velocity in a sewer line is generally:", "opts": ["0.3 m/s", "0.6 m/s", "1.5 m/s", "3.0 m/s"], "ans": 1}, {"no": 17, "q": "A trap in a plumbing system is provided to:", "opts": ["Increase flow velocity", "Prevent foul gases from entering the building", "Store water", "Reduce pipe diameter"], "ans": 1}, {"no": 18, "q": "The water seal depth required in a floor trap as per NBC is:", "opts": ["25 mm", "50 mm", "75 mm", "100 mm"], "ans": 1}, {"no": 19, "q": "BOD stands for:", "opts": ["Biological Oxygen Demand", "Biochemical Oxygen Demand", "Basic Organic Discharge", "Bacterial Oxygen Distribution"], "ans": 1}, {"no": 20, "q": "Gradient of a soil pipe in a plumbing system is generally maintained at:", "opts": ["1:10", "1:40 to 1:60", "1:100", "1:200"], "ans": 1}, {"no": 21, "q": "A septic tank is a:", "opts": ["Secondary aerobic treatment unit", "Primary anaerobic treatment and settling unit", "Chemical dosing unit", "Sludge drying bed"], "ans": 1}, {"no": 22, "q": "The vent pipe in a plumbing system is provided to:", "opts": ["Supply fresh air to the building", "Maintain atmospheric pressure and prevent siphonage of traps", "Drain rainwater", "Carry overflow from tanks"], "ans": 1}, {"no": 23, "q": "Which drainage system collects both sewage and storm water in the same pipe?", "opts": ["Separate system", "Combined system", "Partially separate system", "Vacuum drainage system"], "ans": 1}, {"no": 24, "q": "Minimum diameter of a soil (WC) branch pipe as per NBC is:", "opts": ["75 mm", "100 mm", "150 mm", "200 mm"], "ans": 1}, {"no": 25, "q": "Storm water drains are designed for:", "opts": ["Average daily rainfall", "Peak run-off from a design storm event", "BOD removal", "Sewage flow"], "ans": 1}, {"no": 26, "q": "Minimum water storage for fire fighting in residential building above 15 m height:", "opts": ["5000 L", "10000 L", "20000 L", "50000 L"], "ans": 1}, {"no": 27, "q": "A wet riser system in a building means:", "opts": ["Dry pipe always pressurised with air", "Pipe permanently charged with water under pressure", "Sprinkler system only", "Halon-based system"], "ans": 1}, {"no": 28, "q": "Working pressure at a fire hydrant outlet is generally:", "opts": ["1.0 bar", "3.5-7.0 bar", "10 bar", "0.5 bar"], "ans": 1}, {"no": 29, "q": "A sprinkler head activates due to:", "opts": ["Manual operation", "Heat causing the fusible element to break", "Water pressure drop", "Smoke detector signal"], "ans": 1}, {"no": 30, "q": "Class A fire refers to fire involving:", "opts": ["Flammable liquids", "Ordinary combustibles (wood, paper, fabric)", "Electrical equipment", "Metals"], "ans": 1}, {"no": 31, "q": "LPG supplied to domestic consumers primarily consists of:", "opts": ["Methane and ethane", "Propane and butane", "Acetylene and propylene", "Hydrogen and oxygen"], "ans": 1}, {"no": 32, "q": "The calorific value of natural gas (CNG) is approximately:", "opts": ["3500 kcal/m3", "9000 kcal/m3", "12000 kcal/m3", "25000 kcal/m3"], "ans": 1}, {"no": 33, "q": "A pressure regulator in a gas supply system is used to:", "opts": ["Increase gas pressure", "Reduce and control gas pressure to safe working level", "Measure gas flow", "Ignite the gas"], "ans": 1}, {"no": 34, "q": "A P-trap is commonly used with:", "opts": ["Floor traps", "Wash basins and sinks (wall outlet)", "WC pans only", "Roof drains"], "ans": 1}, {"no": 35, "q": "Standard flushing capacity of a WC cistern as per water conservation norms:", "opts": ["9 litres", "6 litres (or dual 3/6 L)", "12 litres", "15 litres"], "ans": 1}, {"no": 36, "q": "A gully trap is provided at:", "opts": ["Junction of soil pipe and drain", "Entry point of surface/waste water drain before connecting to sewer", "Below every WC", "Inside bathrooms"], "ans": 1}, {"no": 37, "q": "Recommended slope for a shower floor is:", "opts": ["1:10", "1:50 to 1:100", "1:200", "1:500"], "ans": 1}, {"no": 38, "q": "NBC stands for:", "opts": ["National Building Code", "National Bureau of Construction", "New Building Compliance", "Norms for Building Construction"], "ans": 0}, {"no": 39, "q": "IS:1172 deals with:", "opts": ["Water quality standards", "Code of basic requirements for water supply drainage and sanitation", "Fire fighting systems", "Gas supply piping"], "ans": 1}, {"no": 40, "q": "Maximum allowable noise level in residential area at night as per CPCB:", "opts": ["55 dB(A)", "45 dB(A)", "65 dB(A)", "75 dB(A)"], "ans": 1}, {"no": 41, "q": "Which of the following is a greenhouse gas?", "opts": ["Oxygen (O2)", "Methane (CH4)", "Nitrogen (N2)", "Argon"], "ans": 1}, {"no": 42, "q": "Rainwater harvesting is done primarily to:", "opts": ["Reduce flooding", "Recharge groundwater and conserve water resources", "Increase humidity", "Treat sewage"], "ans": 1}, {"no": 43, "q": "Which organisation sets drinking water quality standards in India?", "opts": ["WHO", "BIS (Bureau of Indian Standards) via IS:10500", "CPHEEO only", "CPCB"], "ans": 1}, {"no": 44, "q": "CPHEEO stands for:", "opts": ["Central Public Health and Environmental Engineering Organisation", "Central Pollution Health and Environmental Engineering Office", "Committee for Public Health Environmental Engineering Operations", "Central Public Health Environmental Efficiency Organisation"], "ans": 0}, {"no": 45, "q": "Effluent Treatment Plant (ETP) is used in:", "opts": ["Municipal water treatment", "Industrial wastewater treatment", "Rainwater harvesting", "Drinking water supply"], "ans": 1}, {"no": 46, "q": "Sewage Treatment Plant (STP) removes:", "opts": ["Industrial chemical waste only", "Organic matter and suspended solids from domestic sewage", "Only heavy metals", "Only pathogens"], "ans": 1}, {"no": 47, "q": "Adding coagulant to water to form larger settleable particles is called:", "opts": ["Filtration", "Coagulation and flocculation", "Sedimentation", "Disinfection"], "ans": 1}, {"no": 48, "q": "A manhole in a sewer network is provided for:", "opts": ["Storm water entry", "Inspection cleaning and maintenance access", "Ventilation only", "Pressure regulation"], "ans": 1}, {"no": 49, "q": "Greywater is defined as:", "opts": ["Sewage from WC pans", "Wastewater from sinks baths and showers (excluding WC/kitchen)", "Storm water run-off", "Industrial effluent"], "ans": 1}, {"no": 50, "q": "The process of reverse osmosis removes contaminants through:", "opts": ["Chemical reaction", "A semi-permeable membrane under pressure", "UV irradiation", "Biological degradation"], "ans": 1}, {"no": 51, "q": "Minimum daily water requirement per bed in a hospital as per IS:1172:", "opts": ["100 L/bed/day", "250 L/bed/day", "450 L/bed/day", "600 L/bed/day"], "ans": 2}, {"no": 52, "q": "A double-check valve assembly in water supply is used for:", "opts": ["Pressure boosting", "Backflow prevention (medium hazard)", "Measuring flow rate", "Chlorination"], "ans": 1}, {"no": 53, "q": "RWDP in plumbing stands for:", "opts": ["Roof Water Down Pipe", "Rain Water Down Pipe", "Recycled Water Delivery Pipe", "Reduced Water Drain Pipe"], "ans": 1}, {"no": 54, "q": "Sewerage system recommended for flat terrain where gravity flow is difficult:", "opts": ["Combined sewer", "Pressure sewer / vacuum sewer", "Open drain", "Deep sewer"], "ans": 1}, {"no": 55, "q": "Retention time in a septic tank is generally:", "opts": ["6-8 hours", "24-48 hours", "5-7 days", "1 month"], "ans": 1}, {"no": 56, "q": "A thermostatic mixing valve (TMV) is used to:", "opts": ["Heat cold water", "Blend hot and cold water to a safe preset temperature to prevent scalding", "Measure temperature", "Control boiler operation"], "ans": 1}, {"no": 57, "q": "A Reduced Pressure Zone (RPZ) backflow preventer:", "opts": ["Boosts water pressure", "Provides the highest level of protection against backflow contamination", "Reduces pipe velocity", "Filters sediment"], "ans": 1}, {"no": 58, "q": "Water hammer in a pipeline is caused by:", "opts": ["Air trapped in pipes", "Sudden change in flow velocity (rapid valve closure)", "Corrosion", "Low pressure"], "ans": 1}, {"no": 59, "q": "The Rational Method formula Q = CiA is used to estimate:", "opts": ["Sewage flow", "Peak surface run-off", "Pump head", "Pipe friction losses"], "ans": 1}, {"no": 60, "q": "Ordinary Hazard Group 1 sprinkler design density is:", "opts": ["2.25 mm/min", "5 mm/min", "7.5 mm/min", "10 mm/min"], "ans": 0}, {"no": 61, "q": "A pressure-independent control valve (PICV) combines:", "opts": ["Isolation valve and strainer", "Pressure regulator and balancing valve in one unit", "Check valve and gate valve", "Air release and vacuum breaker"], "ans": 1}, {"no": 62, "q": "A soakaway pit is designed to:", "opts": ["Collect sewage for treatment", "Disperse surface water into the ground by infiltration", "Store fire-fighting water", "Intercept grease"], "ans": 1}, {"no": 63, "q": "The two-pipe system of sanitary plumbing separates:", "opts": ["Hot and cold water", "Soil water (WC) and waste water (basins/sinks) into separate stacks", "Grey and rainwater", "Potable and non-potable water"], "ans": 1}, {"no": 64, "q": "Fixture unit value assigned to a wash basin in IS-based plumbing design:", "opts": ["0.5", "1", "2", "3"], "ans": 1}, {"no": 65, "q": "The Darcy-Weisbach equation uses which friction factor?", "opts": ["Hazen-Williams coefficient C", "Moody/Darcy friction factor f", "Manning s n", "Chezy s C"], "ans": 1}, {"no": 66, "q": "Legionella bacteria in hot water systems is controlled by maintaining storage above:", "opts": ["45 degrees C", "55 degrees C", "60 degrees C", "70 degrees C"], "ans": 2}, {"no": 67, "q": "A surge vessel in a pumping main is used to:", "opts": ["Store chemical dosing", "Absorb pressure transients and prevent water hammer", "Measure flow", "Filter debris"], "ans": 1}, {"no": 68, "q": "Jointing used for HDPE water supply pipes:", "opts": ["Caulked lead joints", "Electrofusion / butt fusion welding", "Threaded joints", "Rubber ring push-fit only"], "ans": 1}, {"no": 69, "q": "A biogas plant primarily treats:", "opts": ["Industrial chemical waste", "Organic waste/sewage sludge through anaerobic digestion", "Storm water", "Drinking water"], "ans": 1}, {"no": 70, "q": "Manning s roughness coefficient n for a concrete sewer pipe is approximately:", "opts": ["0.009", "0.013", "0.025", "0.035"], "ans": 1}, {"no": 71, "q": "Activated sludge process (ASP) is a:", "opts": ["Primary physical treatment", "Secondary aerobic biological treatment", "Tertiary chemical process", "Anaerobic digestion"], "ans": 1}, {"no": 72, "q": "Green infrastructure in urban drainage includes:", "opts": ["Concrete culverts and storm sewers", "Rain gardens bioswales permeable paving and green roofs", "Underground detention tanks only", "Steel pipes"], "ans": 1}, {"no": 73, "q": "In PHE design ELR refers to:", "opts": ["Effective Length Ratio", "Equivalent Length of fittings for friction loss calculation", "Equipment Load Rating", "Emergency Level Reserve"], "ans": 1}, {"no": 74, "q": "Minimum diameter of a vent pipe serving a WC as per NBC:", "opts": ["50 mm", "75 mm", "100 mm", "150 mm"], "ans": 1}, {"no": 75, "q": "Trickling filter in sewage treatment is classified as:", "opts": ["Anaerobic attached growth process", "Aerobic attached growth (fixed film) biological process", "Chemical precipitation", "Physical straining"], "ans": 1}, {"no": 76, "q": "Which is NOT a primary treatment process in a STP?", "opts": ["Screening", "Grit removal", "Sedimentation (settling)", "Activated sludge aeration"], "ans": 3}, {"no": 77, "q": "The Water Fixture Unit (WFU) method is used to:", "opts": ["Calculate sewer invert levels", "Estimate simultaneous demand and size supply pipes", "Design fire systems", "Calculate rainfall run-off"], "ans": 1}, {"no": 78, "q": "A hydropneumatic pressure booster system maintains pressure using:", "opts": ["A gravity tank only", "A pressurised vessel with air cushion and variable speed pump", "Chemical dosing", "A rooftop tank"], "ans": 1}, {"no": 79, "q": "TDS in water quality stands for:", "opts": ["Total Dissolved Solids", "Total Demand for Supply", "Turbidity Detection Standard", "Treated Drinking Standard"], "ans": 0}, {"no": 80, "q": "Chlorine demand of water is defined as:", "opts": ["Amount of chlorine added", "Difference between chlorine applied and residual chlorine remaining", "Residual chlorine at tap", "pH-adjusted chlorine dose"], "ans": 1}, {"no": 81, "q": "Zone of saturation in groundwater refers to:", "opts": ["Unsaturated zone above water table", "Zone below water table where all pores are filled with water", "Vadose zone", "Perched aquifer"], "ans": 1}, {"no": 82, "q": "Qmax/Qavg ratio (peak factor) for domestic sewage is typically:", "opts": ["1.0-1.5", "2.0-3.0", "5.0-6.0", "0.5"], "ans": 1}, {"no": 83, "q": "A dry-pipe sprinkler system is used:", "opts": ["In warm climates only", "In areas subject to freezing where pipes are filled with pressurised air until activation", "Only in industrial buildings", "For foam systems"], "ans": 1}, {"no": 84, "q": "EIA stands for:", "opts": ["Environmental Impact Assessment", "Engineering Installation Approval", "Electrical Installation Audit", "Environmental Infrastructure Analysis"], "ans": 0}, {"no": 85, "q": "Purpose of an expansion tank in a closed hot water system:", "opts": ["Store extra hot water", "Accommodate thermal expansion of water to prevent over-pressure", "Improve heat transfer", "Boost pump pressure"], "ans": 1}, {"no": 86, "q": "Medical gas pipelines in a hospital typically carry:", "opts": ["Natural gas for heating", "Oxygen nitrous oxide medical air vacuum and CO2", "LPG only", "Steam"], "ans": 1}, {"no": 87, "q": "Noise in plumbing pipes is most commonly caused by:", "opts": ["Low pressure", "High flow velocity water hammer and loose fittings", "Corrosion only", "Cold water"], "ans": 1}, {"no": 88, "q": "Minimum cover over a stoneware sewer in a road per IS:1742:", "opts": ["0.3 m", "1.0 m", "2.0 m", "0.6 m"], "ans": 1}, {"no": 89, "q": "A SCADA system in a water utility is used for:", "opts": ["Chemical testing", "Supervisory control and data acquisition for monitoring and controlling the network", "Manual pump operation only", "Billing"], "ans": 1}, {"no": 90, "q": "Sustainable Urban Drainage Systems (SUDS) aim to:", "opts": ["Increase surface run-off speed", "Manage quantity and quality of run-off close to its source mimicking natural drainage", "Install larger pipes", "Eliminate rainfall"], "ans": 1}, {"no": 91, "q": "An air release valve in a rising water main is provided to:", "opts": ["Release excess pressure", "Allow trapped air to escape preventing airlock and pressure surges", "Drain the main", "Control flow rate"], "ans": 1}, {"no": 92, "q": "COD stands for:", "opts": ["Chemical Oxygen Demand", "Chlorine Oxygen Distribution", "Carbon Organic Discharge", "Controlled Oxygen Disinfection"], "ans": 0}, {"no": 93, "q": "The blue-green roof concept involves:", "opts": ["Painting roofs blue and green", "Combining water retention (blue) and vegetation (green) on rooftops for drainage management", "Solar panels only", "Reflective cool roofing"], "ans": 1}, {"no": 94, "q": "A package STP is typically chosen for:", "opts": ["Large municipal schemes above 10 MLD", "Small isolated developments where conventional STP is not feasible", "Industrial effluent only", "Hospitals only"], "ans": 1}, {"no": 95, "q": "Hardness of water is expressed in terms of equivalent:", "opts": ["NaCl", "CaCO3", "MgSO4", "FeSO4"], "ans": 1}, {"no": 96, "q": "FOG in a drainage context stands for:", "opts": ["Flow Over Ground", "Fats Oils and Grease", "Filtered Organic Growth", "Fine Organic Grit"], "ans": 1}, {"no": 97, "q": "A grease trap in a commercial kitchen drainage is sized based on:", "opts": ["Number of floors", "Flow rate and grease-retention capacity (EN 1825)", "Pipe diameter only", "BOD load"], "ans": 1}, {"no": 98, "q": "Reverse osmosis removes contaminants through:", "opts": ["Chemical precipitation", "Semi-permeable membrane under applied pressure", "UV disinfection", "Biological process"], "ans": 1}, {"no": 99, "q": "Potable water means water that is:", "opts": ["Distilled", "Safe to drink meeting prescribed quality standards", "Treated with ozone", "Fluoride-free"], "ans": 1}, {"no": 100, "q": "An interceptor trap is placed:", "opts": ["Inside the building", "Between the building drain and the public sewer to prevent sewer gases entering", "At the roof drain", "Inside the WC pan"], "ans": 1}, {"no": 101, "q": "A centrifugal pump delivers 30 L/s against total head of 40 m. Pump efficiency = 75%. Power input?", "opts": ["Approx 10.0 kW", "Approx 15.7 kW", "Approx 9.4 kW", "Approx 20.0 kW"], "ans": 1}, {"no": 102, "q": "Head loss in 200 mm dia 500 m long pipe Q=50 L/s C=120 (Hazen-Williams):", "opts": ["Approx 5 m", "Approx 20 m", "Approx 35 m", "Approx 50 m"], "ans": 1}, {"no": 103, "q": "Septic tank for 25 persons. Per IS:2470 130 L/person 1 day retention. Tank capacity:", "opts": ["2500 L", "3250 L", "1000 L", "5000 L"], "ans": 1}, {"no": 104, "q": "Manning equation: 300 mm dia pipe n=0.013 S=1/200 running full. Flow approximately:", "opts": ["15 L/s", "52 L/s", "80 L/s", "120 L/s"], "ans": 1}, {"no": 105, "q": "Rational Method Q=CiA: catchment 2 ha C=0.65 i=50 mm/hr. Peak runoff:", "opts": ["0.065 m3/s", "0.018 m3/s", "0.5 m3/s", "0.13 m3/s"], "ans": 1}, {"no": 106, "q": "50000 L tank at 50 mg/L chlorine dose. HTH (65% available chlorine) required:", "opts": ["2.5 kg", "3.85 kg", "5.0 kg", "7.7 kg"], "ans": 1}, {"no": 107, "q": "Heat loss: 25 m long 28 mm dia copper pipe U=0.8 W/m.K delta T=30 degrees C:", "opts": ["168 W", "67 W", "336 W", "540 W"], "ans": 0}, {"no": 108, "q": "Which statement about NPSH is correct?", "opts": ["NPSH available must be less than NPSH required", "NPSH available must be greater than NPSH required to prevent cavitation", "NPSH is irrelevant for centrifugal pumps", "NPSH only applies to submersible pumps"], "ans": 1}, {"no": 109, "q": "A sump pump must empty 10 m3 wet well in 10 minutes. Minimum pump capacity:", "opts": ["0.5 m3/min", "1.0 m3/min", "5.0 m3/min", "10 m3/min"], "ans": 1}, {"no": 110, "q": "Specific speed (Ns) of a centrifugal pump is used to:", "opts": ["Determine pipe friction", "Classify pump type and predict performance characteristics", "Calculate NPSH", "Size the motor"], "ans": 1}, {"no": 111, "q": "In a solar water heating system collector area is sized based on:", "opts": ["Roof area available", "Daily hot water demand solar irradiation and system efficiency", "Number of occupants only", "Pipe diameter"], "ans": 1}, {"no": 112, "q": "Dual 3L/6L vs single 9L flush. 20 WCs 100 persons 5 flushes/day 50/50 split. Daily saving:", "opts": ["1000 L/day", "4500 L/day", "9000 L/day", "2250 L/day"], "ans": 1}, {"no": 113, "q": "Vacuum drainage systems in buildings operate at vacuum of approximately:", "opts": ["0.1 bar", "0.4-0.5 bar below atmospheric", "1.0 bar absolute", "2.0 bar"], "ans": 1}, {"no": 114, "q": "Rational Method coefficient C for densely built commercial area is typically:", "opts": ["0.10-0.20", "0.70-0.95", "0.40-0.55", "0.25-0.40"], "ans": 1}, {"no": 115, "q": "Dead leg pipework in building water supply should be minimised to:", "opts": ["Reduce pipe cost", "Prevent stagnation bacterial growth (Legionella) and water quality degradation", "Increase pressure", "Improve aesthetics"], "ans": 1}, {"no": 116, "q": "Langelier Saturation Index (LSI) is used to assess:", "opts": ["Turbidity", "Corrosivity or scale-forming tendency of water", "Chlorine demand", "Bacterial load"], "ans": 1}, {"no": 117, "q": "K-factor of a sprinkler head relates:", "opts": ["Pressure to temperature", "Flow rate to pressure (Q = K root P)", "Head loss to velocity", "Pipe roughness to flow"], "ans": 1}, {"no": 118, "q": "Invert level in drainage design means:", "opts": ["Top of pipe level", "Bottom inside surface level of the pipe", "Centreline level", "Ground surface level"], "ans": 1}, {"no": 119, "q": "Pressure zone management (PZM) in water distribution networks:", "opts": ["Eliminates the need for pumps", "Divides the network into zones to control pressure and reduce leakage", "Only applies to fire systems", "Increases pipe diameter"], "ans": 1}, {"no": 120, "q": "An oxidation pond relies primarily on:", "opts": ["Mechanical aeration", "Natural sunlight algae-bacteria symbiosis and wind mixing", "Chemical dosing", "Membrane filtration"], "ans": 1}, {"no": 121, "q": "The fixture unit concept is based on assumption that:", "opts": ["All fixtures operate simultaneously", "Not all fixtures operate simultaneously - probability-based peak demand", "Flow is always laminar", "Pressure is constant"], "ans": 1}, {"no": 122, "q": "An aquifer confined between impermeable layers with pressure above atmospheric is called:", "opts": ["Unconfined aquifer", "Artesian (confined) aquifer", "Perched aquifer", "Vadose zone"], "ans": 1}, {"no": 123, "q": "In MBR technology the membrane serves to:", "opts": ["Provide biological treatment", "Replace secondary clarifier by separating biomass from treated effluent", "Disinfect the effluent chemically", "Supply oxygen"], "ans": 1}, {"no": 124, "q": "The simultaneous demand factor in hot water design accounts for:", "opts": ["Peak cold water demand", "Diversity of use - probability that all outlets will not be used at same time", "Total installed load", "Boiler capacity"], "ans": 1}, {"no": 125, "q": "In a single stack system the most critical condition for trap seal integrity is:", "opts": ["Low flow velocity", "Self-siphonage or induced siphonage when large volumes pass the stack", "High temperature", "Long vent pipe"], "ans": 1}, {"no": 126, "q": "Zebra mussel and biofouling in pipelines are controlled by:", "opts": ["Increased flow velocity only", "Chlorination UV treatment and regular pigging", "Chemical precipitation", "Softening"], "ans": 1}, {"no": 127, "q": "Colour coding for medical vacuum pipeline in a hospital:", "opts": ["White", "Yellow", "Blue", "Green"], "ans": 0}, {"no": 128, "q": "In rainwater harvesting a first flush diverter is used to:", "opts": ["Increase collection efficiency", "Discard initial contaminated roof run-off to improve water quality", "Filter debris", "Measure rainfall"], "ans": 1}, {"no": 129, "q": "Critical velocity in a sewer - velocity below which:", "opts": ["Pipes may burst", "Sediment deposition occurs causing blockage", "Flow becomes turbulent", "Gases escape"], "ans": 1}, {"no": 130, "q": "Electrolytic (galvanic) corrosion in pipework occurs when:", "opts": ["Water temperature is too high", "Two dissimilar metals are in contact in the presence of an electrolyte (water)", "Flow velocity is excessive", "Pipe is oversized"], "ans": 1}, {"no": 131, "q": "In LEED/GRIHA water efficiency credits are awarded for:", "opts": ["Maximising mains water consumption", "Reducing potable water demand through fixtures recycling and harvesting", "Increasing pipe sizes", "Installing more pumps"], "ans": 1}, {"no": 132, "q": "Siphonic roof drainage differs from conventional gravity systems in that:", "opts": ["It uses larger pipes", "It operates under full-bore siphonic action allowing smaller pipes and fewer outlets", "It requires pumps", "It only works for flat roofs"], "ans": 1}, {"no": 133, "q": "A rising main velocity should not exceed 3 m/s to prevent:", "opts": ["Low pressure", "Excessive friction losses and risk of water hammer", "Scaling", "Air entrainment only"], "ans": 1}, {"no": 134, "q": "UV disinfection has a known limitation of:", "opts": ["High cost of chlorine", "Provides no residual disinfection protection in distribution", "Produces harmful byproducts", "Requires high pressure"], "ans": 1}, {"no": 135, "q": "An intermittent supply water system differs from continuous supply in that:", "opts": ["It uses smaller pipes", "Water is supplied for only a few hours per day requiring consumer-side storage", "It is always pressurised", "It requires no pumping"], "ans": 1}, {"no": 136, "q": "A drop manhole in a sewer network is used when:", "opts": ["Sewers run uphill", "A high-level sewer connects to a deep sewer to safely lower the flow", "Manholes are too large", "Pipes change diameter"], "ans": 1}, {"no": 137, "q": "PRVs in a multi-storey building are installed typically every:", "opts": ["2-3 floors", "6-10 floors (approximately 35-50 m head)", "20 floors", "Ground floor only"], "ans": 1}, {"no": 138, "q": "The loading unit method in hot water system design estimates:", "opts": ["Pipe wall thickness", "Probable simultaneous hot water demand based on fixture usage patterns", "Boiler flue size", "Tank insulation thickness"], "ans": 1}, {"no": 139, "q": "Best process for removing pharmaceutical micropollutants (PPCPs) from treated sewage:", "opts": ["Primary sedimentation", "Advanced oxidation (ozone/UV-H2O2) or activated carbon adsorption", "Conventional ASP", "Grit removal"], "ans": 1}, {"no": 140, "q": "In a dual pipe system of water reuse recycled water CANNOT be used for:", "opts": ["Toilet flushing", "Drinking and cooking (potable uses)", "Irrigation", "Cooling towers"], "ans": 1}, {"no": 141, "q": "15 mm copper pipe at 3 bar g sudden contraction to 10 mm bore. Flow will:", "opts": ["Slow down - reduced pipe area causes pressure rise", "Accelerate with pressure drop at the contraction", "Reverse direction", "Stop completely"], "ans": 1}, {"no": 142, "q": "Infiltration-inflow (I/I) problem in sewer systems refers to:", "opts": ["Intentional storm water connection", "Groundwater and storm water entering the sewer through defects causing overloading", "High BOD sewage", "Low flow velocity"], "ans": 1}, {"no": 143, "q": "BIM application in PHE services primarily enables:", "opts": ["Manual drafting of plans", "3D coordination clash detection quantity take-off and facility management", "Chemical dosing control", "Fire alarm design"], "ans": 1}, {"no": 144, "q": "In LEED v4 baseline flush volume for a WC used for water efficiency calculations:", "opts": ["9 litres", "6 litres (1.6 gpf)", "3 litres", "12 litres"], "ans": 1}, {"no": 145, "q": "Energy recovery device in large-scale RO desalination plants:", "opts": ["Solar panel", "Pressure exchanger (isobaric device) recovering energy from brine stream", "Heat pump", "Variable speed drive"], "ans": 1}, {"no": 146, "q": "In hospital foul drainage (HTM 04-01) critical infection control measure for WC pans:", "opts": ["Larger pipe diameter", "Rimless WC pans to prevent splash and pathogen spread", "Higher flush volume", "Chemical dosing"], "ans": 1}, {"no": 147, "q": "EPANET Global Gradient Algorithm simultaneously solves for:", "opts": ["Pipe material selection", "Nodal heads and pipe flows satisfying energy and continuity equations", "Chemical dosing rates", "Pump speed"], "ans": 1}, {"no": 148, "q": "Thermal stratification in a large hot water calorifier is managed by:", "opts": ["Reducing tank size", "Temperature-controlled mixing pumps baffles or thermostatic circulation", "Insulating externally only", "Increasing pressure"], "ans": 1}, {"no": 149, "q": "A 100 mm dia pipe V=1.5 m/s. Using continuity Q = A x V flow rate Q (L/s) approximately:", "opts": ["5.9 L/s", "11.8 L/s", "15.0 L/s", "3.0 L/s"], "ans": 1}, {"no": 150, "q": "A pump raises water from -2 m (suction) to +18 m (delivery). Friction = 3 m. Total static head:", "opts": ["16 m", "23 m", "18 m", "20 m"], "ans": 1}];
+const DURATION = 90 * 60;
+let userName = '';
+let answers = {};
+let timerInterval;
+let timeLeft = DURATION;
+let examStarted = false;
+
+document.getElementById('nameInput').addEventListener('input', function(){
+  document.getElementById('startBtn').disabled = this.value.trim().length < 2;
+});
+document.getElementById('nameInput').addEventListener('keydown', function(e){
+  if(e.key==='Enter' && this.value.trim().length>=2) startExam();
+});
+
+function startExam(){
+  userName = document.getElementById('nameInput').value.trim();
+  if(!userName) return;
+  document.getElementById('cover').style.display='none';
+  document.getElementById('exam').style.display='block';
+  document.getElementById('headerName').textContent = userName;
+  renderQuestions();
+  startTimer();
+  examStarted = true;
+}
+
+function renderQuestions(){
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  QUESTIONS.forEach((q,i)=>{
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'q'+i;
+    const labels = ['A','B','C','D'];
+    const optsHtml = q.opts.map((opt,j)=>`
+      <div class="opt ${answers[i]===j?'selected':''}" onclick="selectAnswer(${i},${j})" id="opt-${i}-${j}">
+        <div class="opt-label">${labels[j]}</div>
+        <div class="opt-text">${opt}</div>
+      </div>`).join('');
+    card.innerHTML = `
+      <div class="q-num">Question ${q.no} of 150</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optsHtml}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function selectAnswer(qIdx, optIdx){
+  answers[qIdx] = optIdx;
+  document.querySelectorAll(`[id^="opt-${qIdx}-"]`).forEach((el,j)=>{
+    el.classList.toggle('selected', j===optIdx);
+    el.querySelector('.opt-label').style.background = j===optIdx ? 'var(--accent2)' : '';
+    el.querySelector('.opt-label').style.color = j===optIdx ? '#fff' : '';
+  });
+  const count = Object.keys(answers).length;
+  document.getElementById('answeredCount').textContent = count;
+  document.getElementById('progressFill').style.width = (count/150*100)+'%';
+}
+
+function startTimer(){
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+    const s = (timeLeft%60).toString().padStart(2,'0');
+    const el = document.getElementById('timer');
+    el.textContent = m+':'+s;
+    if(timeLeft<=300){ el.className='timer warn'; }
+    if(timeLeft<=60){ el.className='timer danger'; }
+    if(timeLeft<=0){ clearInterval(timerInterval); submitExam(); }
+  },1000);
+}
+
+function confirmSubmit(){
+  const answered = Object.keys(answers).length;
+  const unanswered = 150 - answered;
+  if(unanswered>0){
+    if(!confirm(`You have ${unanswered} unanswered question(s).\nSubmit anyway?`)) return;
+  }
+  clearInterval(timerInterval);
+  submitExam();
+}
+
+function submitExam(){
+  document.getElementById('exam').style.display='none';
+  document.getElementById('results').style.display='block';
+  showResults();
+}
+
+function showResults(){
+  let correct=0, wrong=0, skipped=0;
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i]===undefined) skipped++;
+    else if(answers[i]===q.ans) correct++;
+    else wrong++;
+  });
+  const pct = Math.round(correct/150*100);
+  let grade, gradeColor;
+  if(pct>=90){grade='Outstanding';gradeColor='var(--accent)';}
+  else if(pct>=75){grade='Distinction';gradeColor='#6ee7b7';}
+  else if(pct>=60){grade='Pass';gradeColor='var(--accent2)';}
+  else if(pct>=50){grade='Average';gradeColor='var(--warn)';}
+  else{grade='Needs Improvement';gradeColor='var(--danger)';}
+
+  const timeTaken = DURATION - timeLeft;
+  const mins = Math.floor(timeTaken/60);
+  const secs = timeTaken%60;
+
+  const reviewHtml = QUESTIONS.map((q,i)=>{
+    const userAns = answers[i];
+    const isCorrect = userAns===q.ans;
+    const isSkipped = userAns===undefined;
+    const labels=['A','B','C','D'];
+    const badge = isSkipped?'<span style="color:var(--warn);font-size:11px">⏭ Skipped</span>':
+                  isCorrect?'<span style="color:var(--accent);font-size:11px">✓ Correct</span>':
+                  '<span style="color:var(--danger);font-size:11px">✗ Wrong</span>';
+    const optsHtml = q.opts.map((opt,j)=>{
+      let cls='neutral';
+      if(j===q.ans) cls='correct-ans';
+      else if(j===userAns && !isCorrect) cls='wrong-ans';
+      else cls='neutral';
+      return `<div class="r-opt ${cls}">${labels[j]}. ${opt}${j===q.ans?' ✓':''}${j===userAns&&!isCorrect?' ✗':''}</div>`;
+    }).join('');
+    return `<div class="r-card">
+      <div class="r-q"><strong style="color:var(--muted);font-family:JetBrains Mono,monospace;font-size:11px">Q${q.no}</strong> ${badge}<br/>${q.q}</div>
+      <div class="r-opts">${optsHtml}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('results').innerHTML = `
+    <div class="score-hero">
+      <div class="score-ring" style="--pct:${pct*3.6}deg">
+        <div class="score-ring-fill"></div>
+        <div class="score-num">${correct}</div>
+        <div class="score-total">out of 150</div>
+      </div>
+      <div class="score-grade" style="color:${gradeColor}">${grade}</div>
+      <div class="score-name">${userName} &nbsp;·&nbsp; ${pct}% Score</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px">Time taken: ${mins}m ${secs}s</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-val correct">${correct}</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-card"><div class="stat-val wrong">${wrong}</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-card"><div class="stat-val skip">${skipped}</div><div class="stat-lbl">Skipped</div></div>
+    </div>
+    <div class="review-title">Answer Review</div>
+    ${reviewHtml}
+    <button class="retry-btn" onclick="location.reload()">Retake Exam</button>
+  `;
+}
+</script>
+</body>
+</html>
